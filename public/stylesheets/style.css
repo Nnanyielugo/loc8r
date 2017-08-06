@@ -1,9 +1,22 @@
-html,body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+html, body {
+  height: 100%;
   background-color: rgba(229, 228, 226, 0.4);
 }
 
-a {
-  color: #00B7FF;
+#nav_container{
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#body_container{
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+p {
+  text-align: justify;
+}
+
+.reviewTimeStamp{
+  color: gray;
 }

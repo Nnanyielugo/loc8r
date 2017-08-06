@@ -3,11 +3,28 @@ html
   head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title= title
-    link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/bootstrap-3.3.7-dist/css/bootstrap.min.css")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .container-fluid#nav_container
+        .navbar-header
+          a.navbar-brand(href='/') Loc8r
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-main')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        #navbar-main.navbar-collapse.collapse
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/about') About
+  .container-fluid#body_container
     block content
 
+    footer
+      .row
+        .col-xs-12
+          small &copy; Nnanyielugo 2027
 
     script(src='/javascripts/jquery-3.2.1.min.js')
-    script(src='/bootstrap/js/bootstrap.min.js')
+    script(src='/bootstrap-3.3.7-dist/js/bootstrap.min.js')

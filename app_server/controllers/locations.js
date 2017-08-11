@@ -114,8 +114,8 @@ var renderDetailPage = function(req, res, locDetail) {
 var _showError = function(req, res, status) {
   var title, content;
   if (status === 404) {
-    title = "404. page nor found";
-    content = "Oh dear. Looka like we can't find this page. Sorry.";
+    title = "404. page not found";
+    content = "Oh dear. Looks like we can't find this page. Sorry.";
   } else {
     title = status + ", something's gone wrong";
     content = "Something somewhere, has gone a little bit wrong."
@@ -201,22 +201,45 @@ module.exports.locationInfo = function(req, res){
 var renderReviewForm =  function(req, res, locDetail){
   res.render('location-review', {
     title: 'Review ' + locDetail.name + ' on Loc8r',
-    pageHeader: { title: 'Review ' + locDetail.name },
-    location: locDetail
+    pageHeader: { title: 'Review ' + locDetail.name }   
   });
 };
 
 //call function from the addReview controller, passing through same parameters,
 //and pass renderReviewForm in callback
 //GET addReview page
-module.exports.addReview =function(req, res){
-  renderReviewForm(req, res, function(req, res, responseData){
+module.exports.addReview = function(req, res){
+  getLocationInfo(req, res, function(req, res, responseData){
     renderReviewForm(req, res, responseData);
   });
 };
 
-
-
+//POST reviews
 module.exports.doAddReview = function(req, res){
-
-}
+  var requestOptions, path, locationid, postdata;
+  locationid = req.params.locationid;
+  //get location ID from URL to construct API url
+  path = '/api/locations/' + locationid + '/reviews';
+  //create data object to send to API using submitted form data
+  postdata = {
+    author: req.body.name,
+    rating: parseInt(req.body.rating, 10),
+    reviewText: req.body.review
+  };
+  requestOptions = {
+    //set request options, including path, setting POST method,
+    //and passing submitted form data into json parameter
+    url: apiOptions.server + path,
+    method: "POST",
+    json: postdata
+  };
+  request(
+    requestOptions,
+    function(err, response, body){
+  if (response.statusCode === 201){
+    res.redirect('/location/' + locationid);
+  } else {
+    _showError(req, res, response.statusCode);
+  }
+}  );
+};

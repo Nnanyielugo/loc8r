@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-app="loc8rApp")
   head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title= title
@@ -26,6 +26,8 @@ html
           .col-xs-12
             small &copy; Nnanyielugo 2027
 
+      script(src='/angular/angular.min.js')
+      script(src='/angular/loc8rApp.js')
       script(src='/javascripts/jquery-3.2.1.min.js')
       script(src='/bootstrap-3.3.7-dist/js/bootstrap.min.js')
       script(src='/javascripts/validation.js')

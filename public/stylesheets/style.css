@@ -20,3 +20,7 @@ p {
 .reviewTimeStamp{
   color: gray;
 }
+
+#filter {
+  margin-left: 4px;
+}

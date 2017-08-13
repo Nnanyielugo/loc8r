@@ -14,86 +14,21 @@ request(options, callback)
 */
 
 //add additional responseBody parameter to function declaration
-var renderHomepage = function(req, res, responseBody) {
-  //define a variable to hold message
-  var message;
-  //if response isn't array, set message,
-  //and set responseBody to be empty array
-  if (!(responseBody instanceof Array)) {
-    message = "API lookup error";
-    responseBody = [];
-  } else {
-    //if responseBody is array with no length, set message
-    if (!responseBody.length) {
-      message = "No places found nearby";
-    }
-  }
-  res.render('locations-list', {
+var renderHomepage = function(req, res) {
+    res.render('locations-list', {
     title: 'loc8r - find a place to work with wifi',
     pageHeader: {
       title: 'Loc8r',
       strapline: 'Find places to work with wifi near you!'
     },
-    sidebar: 'Looking for wifi and a seat?\n Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? let Loc8r help you find the place you\'re looking for.',
-    //remove hard-coded array of locations and pass responseBody through instead
-    locations: responseBody,
-    //add message to variables to send to view
-    message: message
-  });
+    sidebar: 'Looking for wifi and a seat?\n Loc8r helps you find places to work when out and about. Perhaps with coffee, cake or a pint? let Loc8r help you find the place you\'re looking for.'
+    });
 };
 
 // GET locations-list page
- module.exports.homelist = function(req, res) {
-  var requestOptions, path;
-  //set path for API request
-  //(server is already set at top of file)
-  path = '/api/locations';
-  //set request options, including URL, method, empty JSON body,
-  //and hard-coded query string parameters
-  requestOptions = {
-    url : apiOptions.server + path,
-    method : "GET",
-    json : {},
-    qs : {
-      lng : -0.7992559,
-      lat : 51.455041,
-      maxDistance : 200000000
-    }
-  };
-  //make a request, sending through request options
-  request(
-    //supplying callback to render homepage
-    requestOptions, 
-    function(err, response, body) {
-      // assign returned body data to a new variable
-      var i, data;
-      data = body;
-      //only runs loop to format distances if API returned a 200 status and some data
-      if (response.statusCode === 200 && data.length) {
-      //loop through array, formatting distance value of location
-        for (i = 0; i < data.length; i++) {
-          data[i].distance = _formatDistance(data[i].distance);
-          //send modified data to be rendered instead of original body
-          // original body rendering =  renderHomepage (req, res, body);
-        }
-      }
-      renderHomepage(req, res, data);
-    }    
-  );
-  var _formatDistance = function(distance){
-    var numDistance, unit;
-    //if supplied distance is over 1 km, round to to one decimal place and add km unit
-    if (distance > 1) {
-      numDistance = parseFloat(distance).toFixed(1);
-      unit = ' km';
-    } else {
-      //otherwise convert to meters and round to nearest meter before adding m unit
-      numDistance = parseInt(distance * 1000,10);
-      unit = ' m';
-    }
-    return numDistance + unit;
-  }
-};
+ module.exports.homelist = function(req, res) { 
+      renderHomepage(req, res);       
+};  
 
 //create named function and move all contents of locationinfo controller into it
 //add new parameter for data in function definition

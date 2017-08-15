@@ -67,7 +67,7 @@ module.exports.locationsListByDistance = function(req, res){
             locations.push({
                 //get distance and convert from radians to kilometers,
                 //using helper functions previously created
-                distance: theEarth.getDistanceFromRads(doc.dis),
+                distance: doc.dis,
                 //push rest of required data into return object
                 name: doc.obj.name, 
                 address: doc.obj.address,

@@ -1,3 +1,4 @@
+(function() {
 //use module setter to add new controller to application
 angular
     .module('loc8rApp')
@@ -6,6 +7,8 @@ angular
 //define new controller homeCtrl and bind some data for page header and sidebar
 //remove $scope from function definition, assign 'this to vm(view model) variable, and update data bindings to use vm instead of $scope
 //pass name of services into controller
+//manually inject the dependencies as strings
+homeCtrl.$inject = ['$scope', 'loc8rData', 'geolocation'];
 function homeCtrl($scope, loc8rData, geolocation) {
     var vm = this;
     vm.pageHeader = {
@@ -23,12 +26,12 @@ function homeCtrl($scope, loc8rData, geolocation) {
         //invoke loc8rData service, which returns $http.get call
         loc8rData.locationByCoords(lat, lng)
             .success(function(data) {
-                $scope.message = data.length > 0 ? "" : "No locations found";
-                $scope.data = { locations: data };
+                vm.message = data.length > 0 ? "" : "No locations found";
+                vm.data = { locations: data };
                 console.log(vm.data);
             })
             .error(function(e) {
-                $scope.message = "Sorry, something's gone wrong ";
+                vm.message = "Sorry, something's gone wrong ";
             });    
     }
     //function to run if geolocation is supported but not successful
@@ -40,10 +43,11 @@ function homeCtrl($scope, loc8rData, geolocation) {
     //function to run if geolocation isn't supported by browser
     vm.noGeo = function() {
         $scope.$apply(function() {
-            $scope.message = "Geolocation not supported by this browser.";
+            vm.message = "Geolocation not supported by this browser.";
         });
     };
     //pass the function to the grolocation service
     //replace $scope references with vm
     geolocation.getPosition(vm.getData,vm.showError,vm.noGeo)
 };
+})();

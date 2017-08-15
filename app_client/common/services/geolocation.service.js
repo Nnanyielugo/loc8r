@@ -1,3 +1,4 @@
+(function() {           //open IIFE
 angular
     .module('loc8rApp')
     .service('geolocation', geolocation);
@@ -14,3 +15,4 @@ function geolocation () {
         getPosition : getPosition
     };
 }
+})();

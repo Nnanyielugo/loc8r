@@ -1,3 +1,4 @@
+(function(){            //openIIFE
 //angular module setter and add ngRoute as a module dependency
 angular.module('loc8rApp', ['ngRoute']);
 
@@ -15,4 +16,4 @@ function config ($routeProvider) {
 angular
     .module('loc8rApp')
     .config(['$routeProvider', config]);       //add config to module, passing through $route provider as a dependency
-    
+})();

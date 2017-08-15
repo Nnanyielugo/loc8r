@@ -41,37 +41,75 @@ var ratingStars = function(){
     };
 };
 
+//create service called geolocation 
+var geolocation = function() {
+    //define function called getPosition that accepts three callback functions for success, error and notsupported
+    var getPosition = function(cbSuccess, cbError, cbNoGeo) {
+        if (navigator.geolocation) {
+            //if geolocation is supported, call native method, passing through success and error callbacks
+            navigator.geolocation.getCurrentPosition(cbSuccess, cbError)
+        } else {
+            //if geolocation isn't, invoke not supported callback
+            cbNoGeo();
+        }
+    };
+    return {
+        //return get position function so it can be invoked from controller
+        getPosition : getPosition
+    }
+}
 
 //pass service name into controller function as parameter
-var locationListCtrl = function ($scope, loc8rData) {
-    $scope.message = "Searching for nearby places";
-    //invoke loc8rData service, which returns $http.get call
-    loc8rData
-        .success(function(data) {
-            $scope.message = data.length > 0 ? "" : "No locations found";
-            $scope.data = { locations: data };
-        })
-        .error(function (e) {
-            $scope.message = "Sorry, something's gone wrong ";
-        });    
+//add name of geolocation service to parameters accepted by controller function
+var locationListCtrl = function ($scope, loc8rData, geolocation) {
+    $scope.message = "checking your location";
+    $scope.getData = function(position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        $scope.message = "Searching for nearby places";
+        //invoke loc8rData service, which returns $http.get call
+        loc8rData.locationByCoords(lat, lng)
+            .success(function(data) {
+                $scope.message = data.length > 0 ? "" : "No locations found";
+                $scope.data = { locations: data };
+            })
+            .error(function(e) {
+                $scope.message = "Sorry, something's gone wrong ";
+            });    
+    }
+    //function to run if geolocation is supported but not successful
+    $scope.showError = function (error) {
+        $scope.$apply(function() {
+            $scope.message = error.message;
+        });
+    };
+    //function to run if geolocation isn't supported by browser
+    $scope.noGeo = function() {
+        $scope.$apply(function() {
+            $scope.message = "Geolocation not supported by this browser.";
+        });
+    };
+    //pass the function to the grolocation service
+    geolocation.getPosition($scope.getData, $scope.showError, $scope.noGeo)
 };
 
 //pass $http service into existing service function
 var loc8rData = function ($http) {
-    //remove hard-coded data and return $http.get call, ensuring that it is calling correct URL
-    return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=200000000');
+    var locationByCoords = function (lat, lng) {
+        //remove hard-coded data and (later,) values and return $http.get call, ensuring that it is calling correct URL
+        return $http.get('/api/locations?lng=' + lng + '&lat=' + lat + '&maxDistance=200000000000');
+    };
+    return {
+        locationByCoords : locationByCoords
+    };
+    
 };
-
-/*var locationListCtrl = function ($scope, loc8rData)
-
-var loc8rData = function($http) {
-    return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=20000000');
-} */
 
 angular
     .module('loc8rApp')
     .controller('locationListCtrl', locationListCtrl)
     .filter('formatDistance', formatDistance)
     .directive('ratingStars', ratingStars)
-    .service('loc8rData', loc8rData);
+    .service('loc8rData', loc8rData)
+    .service('geolocation', geolocation);
     

@@ -138,7 +138,9 @@ var renderReviewForm =  function(req, res, locDetail){
     title: 'Review ' + locDetail.name + ' on Loc8r',
     pageHeader: { title: 'Review ' + locDetail.name },
     //send new error variable to view, passing it query parameters when it exists
-    error: req.query.err 
+    error: req.query.err,
+    //use the originalUrl property to enable form submission on same page with angular
+    url: req.originalUrl 
   });
 };
 

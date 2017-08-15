@@ -1,23 +1,5 @@
 angular.module('loc8rApp', []);
 
-var locationListCtrl = function($scope) {
-    $scope.data = {
-        locations: [{
-            name: 'Burger Queen',
-            address: '125 High Street, Reading, RG6 IPS',
-            rating: 3,
-            facilities: ['Hot drinks', 'Food', 'Premium wifi'],
-            distance: '0.296456',
-            _1d: '5370a35f2536f678f8dfb6a'
-        }, {
-            name: 'Costy',
-            address: '125 High Street, Reading, RG6 IPS',
-            rating: 4,
-            facilities: ['Hot drinks', 'Food', 'Alcoholic drinks'],
-            distance: '0.785456',
-            _1d: '5370a35f2536f678f8dfb6a'
-        }]};
-};
 //_isNumeric helper function is copied directly from Express code
 var _isNumeric = function(n){
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -59,8 +41,37 @@ var ratingStars = function(){
     };
 };
 
+
+//pass service name into controller function as parameter
+var locationListCtrl = function ($scope, loc8rData) {
+    $scope.message = "Searching for nearby places";
+    //invoke loc8rData service, which returns $http.get call
+    loc8rData
+        .success(function(data) {
+            $scope.message = data.length > 0 ? "" : "No locations found";
+            $scope.data = { locations: data };
+        })
+        .error(function (e) {
+            $scope.message = "Sorry, something's gone wrong ";
+        });    
+};
+
+//pass $http service into existing service function
+var loc8rData = function ($http) {
+    //remove hard-coded data and return $http.get call, ensuring that it is calling correct URL
+    return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=200000000');
+};
+
+/*var locationListCtrl = function ($scope, loc8rData)
+
+var loc8rData = function($http) {
+    return $http.get('/api/locations?lng=-0.79&lat=51.3&maxDistance=20000000');
+} */
+
 angular
     .module('loc8rApp')
     .controller('locationListCtrl', locationListCtrl)
     .filter('formatDistance', formatDistance)
-    .directive('ratingStars', ratingStars);
+    .directive('ratingStars', ratingStars)
+    .service('loc8rData', loc8rData);
+    

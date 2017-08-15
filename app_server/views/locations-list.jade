@@ -9,7 +9,7 @@ block content
     .row
         .col-xs-12.col-sm-8(ng-controller="locationListCtrl")
             label(for="filter") Filter results
-            //-create new input field and bind it to  model with a name, textFilter
+                //-create new input field and bind it to  model with a name, textFilter
             input#filter(type="text", name="filter", ng-model="textFilter")
             .error {{ message }}
             .row.list-group

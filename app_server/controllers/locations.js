@@ -62,38 +62,6 @@ var _showError = function(req, res, status) {
   });
 };
 
-/* this was the getLocationInfo function before it was modified to allow for
-reusable functions
-module.exports.locationInfo = function(req, res){
-  //call new function from controller, remembering to pass its req and res parameters
-  var requestOptions, path;
-  //get locationid parameter from URL and append it to API path
-  path = '/api/locations/' + req.params.locationid;
-  requestOptions = {
-    //set all request options needed to call API
-    url : apiOptions.server + path,
-    method : "GET",
-    json : {}
-  };
-  request(
-    requestOptions,
-    function(err, response, body) {
-      //create copy of returned data in new variable 
-      var data = body;
-      if (response.statusCode === 200) {
-      data.coords = {
-        lng : body.coords[0],
-        lat : body.coords[1]
-      };
-      renderDetailPage(req, res, data);
-      } else{
-        _showError(req, res, response.statusCode);
-      }      
-    }
-  );
-};
-*/
-
 var getLocationInfo = function(req, res, callback){
   //call new function from controller, remembering to pass its req and res parameters
   var requestOptions, path;

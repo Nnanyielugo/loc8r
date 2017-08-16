@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="loc8rApp">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Loc8r</title>
+        <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/style.css">
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div id="nav_container" class="container-fluid">
+                <div class="navbar-header">
+                    <a href="/" class="navbar-brand">Loc8r</a>
+                    <button type="button" data-toggle="collapse" data-target="#navbar-main" class="navbar-toggle">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="navbar-main" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/about">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="body_container" class="container-fluid">
+            <div ng-view></div>
+            <footer>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <small>&copy; Nnanyielugo 2027</small>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <script src="/angular/angular.min.js"></script>
+        <script src="/lib/angular-route.min.js"></script>
+        <script src="/lib/angular-sanitize.min.js"></script>
+        <script src="angular/loc8r.min.js"></script>
+        <script src="/javascripts/jquery-3.2.1.min.js"></script>
+        <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+        <script src="/javascripts/validation.js"></script>
+    </body>
+</html>

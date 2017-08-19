@@ -13,6 +13,16 @@ html, body {
   margin-right: 5%;
 }
 
+#b_container{
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.c_container{
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 p {
   text-align: justify;
 }

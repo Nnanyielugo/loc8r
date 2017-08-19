@@ -1,0 +1,11 @@
+<div id="banner" class="page-header">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>
+                <!-- since we're using an isolate scope, and do not have direct access to the data in vm, we pass title and strapline as properties of object called content -->
+                {{ content.title }}
+                <small> {{ content.strapline }} </small>
+            </h1>
+        </div>
+    </div>
+</div>

@@ -4,9 +4,10 @@
         .controller('locationDetailCtrl', locationDetailCtrl);
 
     //inject $routeParams service into controller, peotecting against minification
-    locationDetailCtrl.$inject = ['$routeParams', 'loc8rData'];
+    //define modal componsnt as a dependency of the controller page
+    locationDetailCtrl.$inject = ['$routeParams','$uibModal', 'loc8rData'];
     ///pass $routeParams into controller so we can use it
-    function locationDetailCtrl($routeParams, loc8rData) {
+    function locationDetailCtrl($routeParams, $uibModal, loc8rData) {
         var vm = this;
         //get locationid from $routeParams and save it in view model
         vm.locationid = $routeParams.locationid;
@@ -23,6 +24,18 @@
             })
             .error(function(e) {
                 console.log(e);
-            });                   
+            });
+            
+            vm.popupReviewForm = function() {
+                var modalInstance = $uibModal.open({
+                                       
+                    templateUrl: "/reviewModal/reviewModal.view.html",
+                    //define viewmodelname inline as the modal component doesn't support using the controllerAs option to specify it
+                    controllerAS: 'reviewModalCtrl as vm',
+                    backdrop: true,
+                    windowClass: 'show',
+                    windowTemplateUrl: 'modalWindowTemplte.html'
+                });
+            };                   
         }    
 })();

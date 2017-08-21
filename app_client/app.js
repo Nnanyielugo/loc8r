@@ -1,6 +1,6 @@
 (function(){            //openIIFE
-//angular module setter and add ngRoute as a module dependency
-angular.module('loc8rApp', ['ngRoute', 'ngSanitize']);
+//angular module setter and add ngRoute and AngularUI as module/application dependencies
+angular.module('loc8rApp', ['ngRoute', 'ngSanitize', 'ui.bootstrap']);
 
 //module config function to hold route definitions
 //accept $locationProvider as a parameter in config

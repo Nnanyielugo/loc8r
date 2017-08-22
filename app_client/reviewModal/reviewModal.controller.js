@@ -3,13 +3,13 @@
         .module('loc8rApp')
         .controller('reviewModalCtrl', reviewModalCtrl);
 
-    reviewModalCtrl.$inject = ['$uibModalInstance'];
-    function reviewModalCtrl ($uibModalInstance) {
-        var vm =this;
-        
+    reviewModalCtrl.$inject = ['$uibModalInstance', 'locationData'];
+    function reviewModalCtrl ($uibModalInstance, locationData) {
+        var vm = this;
+        vm.locationData = locationData
 
         //create vm.modal.cancel() method and use it to call $modalInstance.dismiss method
-        vm.uibModal = {
+        vm.modal = {
             cancel : function() {
                 $uibModalInstance.dismiss('cancel');
             }

@@ -7,7 +7,7 @@
     //define modal componsnt as a dependency of the controller page
     locationDetailCtrl.$inject = ['$routeParams','$uibModal', 'loc8rData'];
     ///pass $routeParams into controller so we can use it
-    function locationDetailCtrl($routeParams, $uibModal, loc8rData) {
+    function locationDetailCtrl($routeParams, $uibModal, loc8rData) {       // $templateCache,
         var vm = this;
         //get locationid from $routeParams and save it in view model
         vm.locationid = $routeParams.locationid;
@@ -31,10 +31,20 @@
                                        
                     templateUrl: "/reviewModal/reviewModal.view.html",
                     //define viewmodelname inline as the modal component doesn't support using the controllerAs option to specify it
-                    controllerAS: 'reviewModalCtrl as vm',
+                    
                     backdrop: true,
-                    windowClass: 'show',
-                    windowTemplateUrl: 'modalWindowTemplte.html'
+                    //windowClass: 'show',
+                    windowTemplateUrl: "/reviewModal/reviewModal.view.html",
+                    controller: 'reviewModalCtrl as vm',
+                    //size: 'sm',
+                    resolve: {
+                        locationData : function() {
+                            return {
+                                locationid : vm.locationid,
+                                locationName : vm.data.location.name
+                            };
+                        }
+                    }
                 });
             };                   
         }    
